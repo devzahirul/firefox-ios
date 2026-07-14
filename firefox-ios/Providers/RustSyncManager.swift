@@ -541,15 +541,12 @@ public class RustSyncManager: NSObject, SyncManager, @unchecked Sendable {
             let declinedEngines = String(describing: syncResult.declined ?? [])
             let telemetryData = syncResult.telemetryJson ??
                 "(No telemetry data was returned)"
-            let telemetryMessage = "\(String(describing: telemetryData))"
-            let syncDetails = ["status": "\(syncResult.status)",
-                               "declinedEngines": "\(declinedEngines)",
-                               "telemetry": telemetryMessage]
 
-            self.logger.log("Finished syncing",
-                            level: .info,
-                            category: .sync,
-                            extra: syncDetails)
+            self.logger.log(
+                "Finished syncing with status: \(syncResult.status), declined engines: \(declinedEngines), telemetry: \(telemetryData)",
+                level: .info,
+                category: .sync
+            )
 
             if let declined = syncResult.declined {
                 self.updateEnginePrefs(declined: declined)
